@@ -1,8 +1,8 @@
 class Rightform < Formula
-  desc "Native macOS file preparation app with optional processing modules"
+  desc "Native macOS file preparation app with optional processing plugins"
   homepage "https://github.com/prisonmike420/rightform"
-  url "https://github.com/prisonmike420/rightform/archive/refs/tags/v0.17.2.tar.gz"
-  sha256 "6b8eb8c888ea67aef1a44a93c42c9921db8a872b61b8a13bb9dc880e89e700f3"
+  url "https://github.com/prisonmike420/rightform/archive/refs/tags/v0.17.3.tar.gz"
+  sha256 "79dec968f6631b1fcba8b398cb65d3588534b865f3e880b942e8a27277cd0941"
   license "MIT"
 
   depends_on :macos
@@ -20,7 +20,9 @@ class Rightform < Formula
           print "Use: rightform update | rightform app"
           ;;
         update)
-          exec brew upgrade rightform
+          brew upgrade rightform && \
+            print "Rightform updated successfully." && \
+            exec /usr/bin/open "$(brew --prefix rightform)/libexec/Rightform.app"
           ;;
         app)
           exec /usr/bin/open "#{libexec}/Rightform.app"
@@ -36,5 +38,17 @@ class Rightform < Formula
 
   test do
     assert_predicate libexec/"Rightform.app/Contents/MacOS/Rightform", :executable?
+  end
+
+  def caveats
+    <<~EOS
+      Rightform installed successfully.
+      Open the app with:
+        rightform app
+
+      Check Homebrew status or update with:
+        rightform info
+        rightform update
+    EOS
   end
 end
